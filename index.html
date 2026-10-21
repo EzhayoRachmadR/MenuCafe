@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <!-- Pengaturan dasar halaman -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Judul yang muncul pada tab browser -->
+    <title>MenuKita - Menu Digital Cafe</title>
+
+    <!-- Deskripsi website -->
+    <meta
+        name="description"
+        content="Lihat menu makanan dan minuman cafe dengan mudah melalui MenuKita."
+    >
+
+    <!-- Warna tema browser pada perangkat yang mendukungnya -->
+    <meta name="theme-color" content="#6F4E37">
+
+    <!-- Ikon website (opsional, jika file tersedia) -->
+    <link rel="icon" href="images/favicon.png" type="image/png">
+
+    <!-- Menghubungkan file CSS untuk mengatur tampilan -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Manifest untuk pengembangan PWA -->
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+
+    <!-- ==============================
+         BAGIAN 1: HEADER WEBSITE
+         Berisi logo dan identitas cafe
+    =============================== -->
+    <header class="site-header">
+        <div class="container header-content">
+
+            <!-- Identitas atau nama cafe -->
+            <a href="#" class="brand" aria-label="MenuKita, halaman utama">
+                <span class="brand-icon" aria-hidden="true">☕</span>
+
+                <span class="brand-text">
+                    <strong id="cafeName">MenuKita Cafe</strong>
+                    <small>Menu Digital</small>
+                </span>
+            </a>
+
+            <!-- Informasi status koneksi -->
+            <div class="connection-status">
+                <span
+                    id="connectionIndicator"
+                    class="status-dot"
+                    aria-hidden="true"
+                ></span>
+
+                <span id="connectionText" aria-live="polite">
+                    Memeriksa koneksi...
+                </span>
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- ==============================
+         BAGIAN 2: KONTEN UTAMA
+         Seluruh informasi menu berada di sini
+    =============================== -->
+    <main>
+
+        <!-- Bagian sambutan atau hero -->
+        <section class="hero">
+            <div class="container hero-content">
+
+                <p class="eyebrow">SELAMAT DATANG</p>
+
+                <h1>
+                    Temukan Menu
+                    <span>Favoritmu</span>
+                </h1>
+
+                <p class="hero-description">
+                    Jelajahi pilihan makanan dan minuman kami.
+                    Praktis, mudah, dan bisa diakses melalui HP
+                    maupun laptop.
+                </p>
+
+            </div>
+        </section>
+
+
+        <!-- ==============================
+             BAGIAN 3: DAFTAR MENU
+        =============================== -->
+        <section class="menu-section" aria-labelledby="menuTitle">
+            <div class="container">
+
+                <!-- Judul dan informasi jumlah menu -->
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">PILIHAN KAMI</p>
+                        <h2 id="menuTitle">Daftar Menu</h2>
+                    </div>
+
+                    <!-- Jumlah menu akan diperbarui oleh JavaScript -->
+                    <p id="menuCount" class="menu-count">
+                        Memuat menu...
+                    </p>
+                </div>
+
+
+                <!-- ==============================
+                     BAGIAN 4: PENCARIAN MENU
+                =============================== -->
+                <div class="search-wrapper">
+
+                    <label for="searchInput" class="search-label">
+                        Cari makanan atau minuman
+                    </label>
+
+                    <div class="search-box">
+                        <span aria-hidden="true">🔎</span>
+
+                        <input
+                            type="search"
+                            id="searchInput"
+                            placeholder="Contoh: nasi goreng, kopi..."
+                            autocomplete="off"
+                            aria-controls="menuGrid"
+                        >
+                    </div>
+
+                </div>
+
+
+                <!-- ==============================
+                     BAGIAN 5: FILTER KATEGORI
+
+                     JavaScript akan membaca atribut
+                     data-category pada setiap tombol.
+                =============================== -->
+                <nav
+                    class="category-list"
+                    aria-label="Kategori menu"
+                >
+
+                    <!-- Menampilkan semua menu -->
+                    <button
+                        type="button"
+                        class="category-button active"
+                        data-category="semua"
+                        aria-pressed="true"
+                    >
+                        Semua Menu
+                    </button>
+
+                    <!-- Filter makanan utama -->
+                    <button
+                        type="button"
+                        class="category-button"
+                        data-category="makanan"
+                        aria-pressed="false"
+                    >
+                        🍛 Makanan
+                    </button>
+
+                    <!-- Filter camilan -->
+                    <button
+                        type="button"
+                        class="category-button"
+                        data-category="camilan"
+                        aria-pressed="false"
+                    >
+                        🍟 Camilan
+                    </button>
+
+                    <!-- Filter minuman kopi -->
+                    <button
+                        type="button"
+                        class="category-button"
+                        data-category="kopi"
+                        aria-pressed="false"
+                    >
+                        ☕ Kopi
+                    </button>
+
+                    <!-- Filter minuman nonkopi -->
+                    <button
+                        type="button"
+                        class="category-button"
+                        data-category="nonkopi"
+                        aria-pressed="false"
+                    >
+                        🥤 Nonkopi
+                    </button>
+
+                </nav>
+
+
+                <!-- ==============================
+                     BAGIAN 6: AREA KARTU MENU
+
+                     JavaScript akan memasukkan kartu
+                     makanan dan minuman ke dalam div ini.
+                =============================== -->
+                <div
+                    id="menuGrid"
+                    class="menu-grid"
+                    aria-live="polite"
+                    aria-busy="true"
+                >
+                    <!-- Kartu menu dibuat melalui script.js -->
+                    <p class="loading-message">
+                        Menu sedang disiapkan...
+                    </p>
+                </div>
+
+
+                <!-- ==============================
+                     BAGIAN 7: PESAN JIKA MENU KOSONG
+
+                     Ditampilkan jika pencarian atau filter
+                     tidak menemukan produk yang sesuai.
+                =============================== -->
+                <div
+                    id="emptyState"
+                    class="empty-state"
+                    hidden
+                >
+                    <span class="empty-icon" aria-hidden="true">🍽️</span>
+
+                    <h3>Menu tidak ditemukan</h3>
+
+                    <p>
+                        Coba gunakan kata kunci lain atau
+                        pilih kategori yang berbeda.
+                    </p>
+
+                    <button
+                        type="button"
+                        id="resetButton"
+                        class="reset-button"
+                    >
+                        Tampilkan Semua Menu
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ==============================
+             BAGIAN 8: INFORMASI CAFE
+        =============================== -->
+        <section class="cafe-info">
+            <div class="container cafe-info-content">
+
+                <div class="info-item">
+                    <span aria-hidden="true">🕒</span>
+
+                    <div>
+                        <h3>Jam Operasional</h3>
+                        <p id="openingHours">08.00 - 22.00 WIB</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <span aria-hidden="true">📍</span>
+
+                    <div>
+                        <h3>Lokasi Cafe</h3>
+                        <p id="cafeAddress">
+                            Alamat cafe dapat diubah di script.js
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ==============================
+         BAGIAN 9: FOOTER
+         Informasi penutup website
+    =============================== -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+
+            <p>
+                &copy; <span id="currentYear"></span>
+                <span id="footerCafeName">MenuKita Cafe</span>.
+                Semua hak dilindungi.
+            </p>
+
+            <p class="footer-note">
+                Menu digital praktis untuk semua.
+            </p>
+
+        </div>
+    </footer>
+
+
+    <!-- ==============================
+         BAGIAN 10: JAVASCRIPT
+
+         defer membuat HTML selesai diproses
+         sebelum script dijalankan.
+    =============================== -->
+    <script src="script.js" defer></script>
+
+</body>
+</html>
