@@ -1,0 +1,930 @@
+
+/*
+========================================================
+  MENU KITA - MENU DIGITAL CAFE
+  File: style.css
+
+  Fungsi:
+  1. Mengatur warna dan tampilan website.
+  2. Membuat kartu makanan dan minuman.
+  3. Mengatur pencarian dan tombol kategori.
+  4. Menyesuaikan tampilan HP, tablet, dan laptop.
+  5. Mengatur status menu tersedia atau habis.
+  6. Memberikan tampilan saat website offline.
+
+  File yang digunakan:
+  - index.html
+  - script.js
+========================================================
+*/
+
+
+/* ======================================================
+   BAGIAN 1: VARIABEL WARNA DAN UKURAN
+
+   Variabel CSS memudahkan pengubahan tema website.
+   Jika ingin mengganti warna utama, cukup ubah nilainya.
+====================================================== */
+
+:root {
+    /* Warna utama website */
+    --primary: #6f4e37;
+    --primary-dark: #503522;
+    --primary-light: #efe4d8;
+
+    /* Warna latar belakang */
+    --background: #faf7f2;
+    --surface: #ffffff;
+    --surface-soft: #f4ede5;
+
+    /* Warna teks */
+    --text-primary: #29251f;
+    --text-secondary: #746b62;
+    --text-light: #ffffff;
+
+    /* Warna status */
+    --success: #237a45;
+    --success-background: #e6f5eb;
+    --danger: #b42318;
+    --danger-background: #fde9e7;
+
+    /* Warna garis dan bayangan */
+    --border: #e8ded3;
+    --shadow: 0 4px 16px rgba(61, 42, 26, 0.07);
+    --shadow-hover: 0 8px 24px rgba(61, 42, 26, 0.12);
+
+    /* Ukuran sudut */
+    --radius-small: 8px;
+    --radius-medium: 14px;
+    --radius-large: 22px;
+
+    /* Lebar maksimum konten */
+    --container-width: 1100px;
+
+    /* Transisi */
+    --transition: 0.2s ease;
+}
+
+
+/* ======================================================
+   BAGIAN 2: RESET DAN PENGATURAN DASAR
+
+   Mengurangi perbedaan tampilan bawaan antar-browser.
+====================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+
+    color: var(--text-primary);
+    background-color: var(--background);
+}
+
+/* Mengatur ukuran gambar agar tidak melebihi wadahnya */
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/* Menyamakan font tombol dan input dengan website */
+button,
+input {
+    font: inherit;
+}
+
+/* Membuat tombol terasa interaktif */
+button {
+    cursor: pointer;
+}
+
+/* Menghilangkan dekorasi bawaan link */
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Judul tidak memiliki jarak berlebihan */
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}
+
+/* Memberikan tanda fokus untuk pengguna keyboard */
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+    outline: 3px solid #d6a66b;
+    outline-offset: 3px;
+}
+
+/* Kontainer untuk menyamakan lebar seluruh bagian website */
+.container {
+    width: min(100% - 32px, var(--container-width));
+    margin-inline: auto;
+}
+
+
+/* ======================================================
+   BAGIAN 3: HEADER WEBSITE
+
+   Berisi nama cafe dan indikator koneksi.
+====================================================== */
+
+.site-header {
+    position: relative;
+    z-index: 10;
+
+    background-color: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    min-height: 76px;
+    padding-block: 12px;
+}
+
+/* Nama cafe dan ikon */
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+
+    min-width: 0;
+}
+
+.brand-icon {
+    display: grid;
+    place-items: center;
+
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+
+    font-size: 24px;
+    background-color: var(--primary-light);
+    border-radius: 50%;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.4;
+}
+
+.brand-text strong {
+    font-size: 18px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.brand-text small {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+/* Indikator status internet */
+.connection-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--text-secondary);
+    font-size: 13px;
+    text-align: right;
+}
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+    flex-shrink: 0;
+
+    background-color: #999999;
+    border-radius: 50%;
+}
+
+/* Warna saat online */
+.status-dot.online {
+    background-color: var(--success);
+}
+
+/* Warna saat offline */
+.status-dot.offline {
+    background-color: var(--danger);
+}
+
+
+/* ======================================================
+   BAGIAN 4: HERO ATAU SAMBUTAN
+
+   Bagian yang pertama kali dilihat pelanggan.
+====================================================== */
+
+.hero {
+    padding-block: 64px 58px;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(214, 166, 107, 0.2),
+            transparent 40%
+        ),
+        linear-gradient(
+            135deg,
+            #f4e8d9,
+            #fbf7f0
+        );
+}
+
+.hero-content {
+    max-width: var(--container-width);
+}
+
+/* Teks kecil di atas judul */
+.eyebrow {
+    margin-bottom: 10px;
+
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+/* Judul utama */
+.hero h1 {
+    max-width: 700px;
+    margin-bottom: 16px;
+
+    font-size: clamp(32px, 5vw, 54px);
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+}
+
+/* Penekanan warna pada kata tertentu */
+.hero h1 span {
+    color: var(--primary);
+}
+
+/* Deskripsi sambutan */
+.hero-description {
+    max-width: 600px;
+    margin-bottom: 0;
+
+    color: var(--text-secondary);
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+
+/* ======================================================
+   BAGIAN 5: AREA DAFTAR MENU
+====================================================== */
+
+.menu-section {
+    padding-block: 48px 64px;
+}
+
+/* Judul bagian dan jumlah menu */
+.section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+
+    margin-bottom: 26px;
+}
+
+.section-heading .eyebrow {
+    margin-bottom: 4px;
+}
+
+.section-heading h2 {
+    margin-bottom: 0;
+
+    font-size: clamp(26px, 4vw, 34px);
+    line-height: 1.3;
+}
+
+.menu-count {
+    margin-bottom: 4px;
+
+    color: var(--text-secondary);
+    font-size: 13px;
+    text-align: right;
+}
+
+
+/* ======================================================
+   BAGIAN 6: KOLOM PENCARIAN
+====================================================== */
+
+.search-wrapper {
+    max-width: 600px;
+    margin-bottom: 24px;
+}
+
+/* Label pencarian */
+.search-label {
+    display: block;
+    margin-bottom: 8px;
+
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Kotak yang membungkus ikon dan input */
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    min-height: 52px;
+    padding-inline: 16px;
+
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+
+    transition:
+        border-color var(--transition),
+        box-shadow var(--transition);
+}
+
+.search-box:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(111, 78, 55, 0.1);
+}
+
+.search-box > span {
+    flex-shrink: 0;
+    font-size: 18px;
+}
+
+/* Input pencarian */
+.search-box input {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+
+    color: var(--text-primary);
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+.search-box input::placeholder {
+    color: #a39a90;
+}
+
+.search-box input:focus-visible {
+    outline: none;
+}
+
+
+/* ======================================================
+   BAGIAN 7: TOMBOL KATEGORI
+
+   Tombol dapat digulir pada layar HP jika tidak muat.
+====================================================== */
+
+.category-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-bottom: 28px;
+}
+
+/* Tampilan dasar tombol kategori */
+.category-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 42px;
+    padding: 9px 17px;
+
+    color: var(--primary);
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    transition:
+        color var(--transition),
+        background-color var(--transition),
+        border-color var(--transition),
+        transform var(--transition);
+}
+
+/* Tampilan saat tombol disentuh atau diarahkan */
+.category-button:hover {
+    border-color: var(--primary);
+    background-color: var(--primary-light);
+}
+
+/* Kategori yang sedang aktif */
+.category-button.active {
+    color: var(--text-light);
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+/* Efek ketika tombol ditekan */
+.category-button:active {
+    transform: scale(0.97);
+}
+
+
+/* ======================================================
+   BAGIAN 8: GRID KARTU MENU
+
+   Default: dua kolom untuk layar kecil.
+   Jumlah kolom akan bertambah pada layar lebih besar.
+====================================================== */
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+/* Kartu satu produk */
+.menu-card {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    overflow: hidden;
+
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    box-shadow: var(--shadow);
+
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+/* Efek hover untuk perangkat yang memiliki mouse */
+@media (hover: hover) {
+    .menu-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-hover);
+    }
+}
+
+/* Foto produk */
+.menu-card > img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+
+    background-color: var(--surface-soft);
+}
+
+/* Pengganti foto ketika gambar tidak tersedia */
+.image-placeholder {
+    display: grid;
+    place-items: center;
+
+    width: 100%;
+    aspect-ratio: 4 / 3;
+
+    background-color: var(--surface-soft);
+    font-size: 44px;
+}
+
+/* Area teks di dalam kartu */
+.menu-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    flex: 1;
+    padding: 12px;
+}
+
+/* Nama produk */
+.menu-name {
+    margin-bottom: 6px;
+
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+/* Deskripsi produk */
+.menu-description {
+    margin-bottom: 12px;
+
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.6;
+
+    /* Membatasi deskripsi menjadi tiga baris */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+}
+
+/* Harga produk */
+.menu-price {
+    margin-top: auto;
+    margin-bottom: 10px;
+
+    color: var(--primary);
+    font-size: 16px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+/* Label status ketersediaan */
+.menu-status {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 4px 9px;
+    border-radius: 999px;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* Jika produk tersedia */
+.menu-status.available {
+    color: var(--success);
+    background-color: var(--success-background);
+}
+
+/* Jika produk habis */
+.menu-status.unavailable {
+    color: var(--danger);
+    background-color: var(--danger-background);
+}
+
+
+/* ======================================================
+   BAGIAN 9: PESAN KETIKA MENU KOSONG
+
+   Ditampilkan saat pencarian tidak menghasilkan menu.
+====================================================== */
+
+.empty-state {
+    padding: 48px 20px;
+    text-align: center;
+
+    background-color: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-large);
+}
+
+/* Pastikan atribut hidden benar-benar menyembunyikan elemen */
+[hidden] {
+    display: none !important;
+}
+
+.empty-icon {
+    display: block;
+    margin-bottom: 12px;
+
+    font-size: 42px;
+}
+
+.empty-state h3 {
+    margin-bottom: 8px;
+    font-size: 21px;
+}
+
+.empty-state p {
+    max-width: 400px;
+    margin: 0 auto 20px;
+
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+/* Tombol untuk mengembalikan semua menu */
+.reset-button {
+    min-height: 44px;
+    padding: 10px 18px;
+
+    color: var(--text-light);
+    background-color: var(--primary);
+    border: 1px solid var(--primary);
+    border-radius: var(--radius-small);
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: background-color var(--transition);
+}
+
+.reset-button:hover {
+    background-color: var(--primary-dark);
+}
+
+
+/* ======================================================
+   BAGIAN 10: INFORMASI CAFE
+====================================================== */
+
+.cafe-info {
+    padding-block: 32px;
+
+    background-color: var(--surface-soft);
+    border-top: 1px solid var(--border);
+}
+
+.cafe-info-content {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+}
+
+/* Setiap item informasi */
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+
+    min-width: 0;
+}
+
+/* Ikon informasi */
+.info-item > span {
+    display: grid;
+    place-items: center;
+
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+
+    background-color: var(--surface);
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+/* Judul informasi */
+.info-item h3 {
+    margin-bottom: 4px;
+    font-size: 15px;
+}
+
+/* Isi informasi */
+.info-item p {
+    margin-bottom: 0;
+
+    color: var(--text-secondary);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+
+/* ======================================================
+   BAGIAN 11: FOOTER
+====================================================== */
+
+.site-footer {
+    padding-block: 24px;
+
+    color: var(--text-light);
+    background-color: var(--primary-dark);
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.footer-content p {
+    margin-bottom: 0;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.footer-note {
+    color: #e2d2c2;
+    text-align: right;
+}
+
+
+/* ======================================================
+   BAGIAN 12: PESAN PEMUATAN MENU
+====================================================== */
+
+.loading-message {
+    grid-column: 1 / -1;
+
+    padding: 24px;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+
+/* ======================================================
+   BAGIAN 13: RESPONSIF UNTUK TABLET
+
+   Pada lebar layar 600 px ke atas, kartu menu
+   ditampilkan dalam tiga kolom.
+====================================================== */
+
+@media (min-width: 600px) {
+    .hero {
+        padding-block: 72px 68px;
+    }
+
+    .menu-section {
+        padding-block: 56px 72px;
+    }
+
+    .menu-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .menu-details {
+        padding: 16px;
+    }
+
+    .menu-name {
+        font-size: 16px;
+    }
+
+    .menu-description {
+        font-size: 13px;
+    }
+
+    .menu-price {
+        font-size: 17px;
+    }
+}
+
+
+/* ======================================================
+   BAGIAN 14: RESPONSIF UNTUK LAPTOP DAN DESKTOP
+
+   Pada lebar layar 900 px ke atas, kartu menu
+   ditampilkan dalam empat kolom.
+====================================================== */
+
+@media (min-width: 900px) {
+    .menu-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+    .menu-card > img {
+        aspect-ratio: 4 / 3;
+    }
+
+    .menu-details {
+        padding: 18px;
+    }
+
+    .hero {
+        padding-block: 84px 76px;
+    }
+}
+
+
+/* ======================================================
+   BAGIAN 15: PENYESUAIAN UNTUK HP KECIL
+
+   Membuat header dan tombol lebih nyaman pada layar
+   dengan lebar maksimal 380 px.
+====================================================== */
+
+@media (max-width: 380px) {
+    .container {
+        width: calc(100% - 24px);
+    }
+
+    .header-content {
+        gap: 8px;
+    }
+
+    .brand {
+        gap: 8px;
+    }
+
+    .brand-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 20px;
+    }
+
+    .brand-text strong {
+        font-size: 15px;
+    }
+
+    .brand-text small {
+        font-size: 11px;
+    }
+
+    .connection-status {
+        gap: 5px;
+        font-size: 11px;
+    }
+
+    .hero {
+        padding-block: 44px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+        letter-spacing: -0.8px;
+    }
+
+    .hero-description {
+        font-size: 14px;
+    }
+
+    .menu-grid {
+        gap: 10px;
+    }
+
+    .menu-details {
+        padding: 10px;
+    }
+
+    .menu-name {
+        font-size: 13px;
+    }
+
+    .menu-description {
+        font-size: 11px;
+    }
+
+    .menu-price {
+        font-size: 13px;
+    }
+
+    .menu-status {
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+
+    .category-button {
+        padding-inline: 12px;
+        font-size: 12px;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+    }
+
+    .menu-count {
+        font-size: 11px;
+    }
+}
+
+
+/* ======================================================
+   BAGIAN 16: MENGHORMATI PREFERENSI GERAKAN PENGGUNA
+
+   Mengurangi animasi bagi pengguna yang memilih
+   pengurangan gerakan pada sistem perangkatnya.
+====================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
